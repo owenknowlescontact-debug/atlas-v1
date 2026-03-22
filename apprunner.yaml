@@ -4,10 +4,14 @@ runtime: python311
 build:
   commands:
     build:
-      - pip3 install -r requirements.txt
+      - python3 --version
+      - pip3 --version
 
 run:
   runtime-version: 3.11
-  command: python3 -m streamlit run app.py
+  pre-run:
+    - pip3 install --upgrade pip
+    - pip3 install -r requirements.txt
+  command: python3 -m streamlit run app.py --server.port 8080 --server.address 0.0.0.0
   network:
     port: 8080
