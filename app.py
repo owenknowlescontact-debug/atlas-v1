@@ -9,24 +9,17 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# -----------------------------
-# Helpers
-# -----------------------------
 def image_to_base64(path: str) -> str:
     if not os.path.exists(path):
         return ""
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-
 logo_base64 = image_to_base64("atlas_logo_transparent.png")
 
 if "last_prompt" not in st.session_state:
     st.session_state.last_prompt = ""
 
-# -----------------------------
-# Styling
-# -----------------------------
 st.markdown(
     """
     <style>
@@ -40,16 +33,16 @@ st.markdown(
 
     .stApp {
         background:
-            radial-gradient(circle at 50% 0%, rgba(180, 190, 210, 0.09), transparent 18%),
-            radial-gradient(circle at 50% 18%, rgba(255,255,255,0.03), transparent 14%),
-            linear-gradient(180deg, #04070b 0%, #060a10 42%, #04070b 100%);
+            radial-gradient(circle at 50% 0%, rgba(180,190,210,0.08), transparent 16%),
+            radial-gradient(circle at 50% 14%, rgba(255,255,255,0.03), transparent 12%),
+            linear-gradient(180deg, #04070b 0%, #060a10 45%, #04070b 100%);
         color: #e9edf5;
         overflow: hidden;
     }
 
     .block-container {
         max-width: 100%;
-        padding: 0.5rem 0.8rem 0.8rem 0.8rem;
+        padding: 0.5rem 0.7rem 0.7rem 0.7rem;
     }
 
     .shell {
@@ -57,9 +50,9 @@ st.markdown(
         border-radius: 28px;
         border: 1px solid rgba(255,255,255,0.06);
         background:
-            radial-gradient(circle at 50% 10%, rgba(255,255,255,0.035), transparent 16%),
-            linear-gradient(180deg, rgba(6,9,14,0.96), rgba(4,7,11,0.98));
-        box-shadow: 0 24px 90px rgba(0,0,0,0.48);
+            radial-gradient(circle at 50% 12%, rgba(255,255,255,0.035), transparent 16%),
+            linear-gradient(180deg, rgba(6,9,14,0.96), rgba(4,7,11,0.985));
+        box-shadow: 0 24px 90px rgba(0,0,0,0.5);
         overflow: hidden;
         position: relative;
     }
@@ -69,8 +62,7 @@ st.markdown(
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background:
-            linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.012) 50%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.012) 50%, transparent 100%);
         mix-blend-mode: screen;
     }
 
@@ -78,13 +70,12 @@ st.markdown(
         height: 64px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         padding: 0 1rem;
         border-bottom: 1px solid rgba(255,255,255,0.05);
-        background: rgba(4, 6, 10, 0.45);
+        background: rgba(4, 6, 10, 0.42);
     }
 
-    .left-top {
+    .topbar-group {
         display: flex;
         align-items: center;
         gap: 0.7rem;
@@ -94,11 +85,11 @@ st.markdown(
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.42rem 0.78rem;
+        padding: 0.42rem 0.8rem;
         border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.09);
         background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-        color: #dce3ee;
+        color: #dfe5ef;
         font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.08em;
@@ -116,8 +107,9 @@ st.markdown(
         overflow: hidden;
     }
 
-    .brand-tile img {
-        filter: brightness(0) invert(1) opacity(0.92);
+    .brand-tile img,
+    .hero-logo img {
+        filter: brightness(0) invert(1) opacity(0.95);
     }
 
     .brand-title {
@@ -132,19 +124,19 @@ st.markdown(
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1.5rem 1rem 2rem 1rem;
+        padding: 0.5rem 1rem 1rem 1rem;
         position: relative;
     }
 
     .hero-wrap::before {
         content: "";
         position: absolute;
-        top: 4%;
+        top: 2%;
         left: 50%;
         transform: translateX(-50%);
-        width: 44%;
-        height: 28%;
-        background: radial-gradient(circle, rgba(255,255,255,0.045), transparent 70%);
+        width: 46%;
+        height: 24%;
+        background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);
         filter: blur(18px);
         pointer-events: none;
     }
@@ -154,12 +146,16 @@ st.markdown(
         max-width: 760px;
         text-align: center;
         z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero-logo {
         width: 86px;
         height: 86px;
-        margin: 0 auto 1.15rem auto;
+        margin: 0 auto 1.1rem auto;
         border-radius: 24px;
         border: 1px solid rgba(255,255,255,0.08);
         background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
@@ -172,33 +168,29 @@ st.markdown(
             0 0 30px rgba(255,255,255,0.025);
     }
 
-    .hero-logo img {
-        filter: brightness(0) invert(1) opacity(0.95);
-    }
-
     .hero-title {
         font-size: 3rem;
         line-height: 1.04;
         font-weight: 650;
         letter-spacing: -0.035em;
         color: #edf2f9;
-        margin-bottom: 0.7rem;
+        margin-bottom: 0.65rem;
     }
 
     .hero-subtitle {
         font-size: 1rem;
         color: #8c95a2;
-        margin-bottom: 1.35rem;
+        margin-bottom: 1.15rem;
     }
 
     .composer-shell {
         width: 100%;
         max-width: 760px;
         margin: 0 auto;
-        border: 1px solid rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.075);
         border-radius: 24px;
         background:
-            linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+            linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
         padding: 0.9rem 1rem 1rem 1rem;
         box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.02),
@@ -213,7 +205,7 @@ st.markdown(
     }
 
     .subtle-note {
-        margin-top: 0.9rem;
+        margin-top: 0.85rem;
         color: #68717d;
         font-size: 0.76rem;
         text-align: center;
@@ -247,9 +239,9 @@ st.markdown(
     }
 
     div[data-testid="stTextInputRootElement"] input {
-        background: rgba(255,255,255,0.035) !important;
+        background: rgba(255,255,255,0.03) !important;
         color: #edf2f9 !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
+        border: 1px solid rgba(255,255,255,0.07) !important;
         border-radius: 16px !important;
         padding: 0.98rem 1rem !important;
         font-size: 1rem !important;
@@ -263,8 +255,8 @@ st.markdown(
     .stButton > button {
         width: 100% !important;
         border-radius: 16px !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015)) !important;
+        border: 1px solid rgba(255,255,255,0.07) !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012)) !important;
         color: #edf2f9 !important;
         padding: 0.82rem 1rem !important;
         box-shadow: none !important;
@@ -273,26 +265,17 @@ st.markdown(
 
     .stButton > button:hover {
         border-color: rgba(255,255,255,0.14) !important;
-        background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.02)) !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.018)) !important;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# -----------------------------
-# Shell
-# -----------------------------
 st.markdown('<div class="shell">', unsafe_allow_html=True)
 
-st.markdown(
-    """
-    <div class="topbar">
-        <div class="left-top">
-            <div class="beta-pill">BETA</div>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown('<div class="topbar"><div class="topbar-group">', unsafe_allow_html=True)
+st.markdown('<div class="beta-pill">BETA</div>', unsafe_allow_html=True)
 
 if logo_base64:
     st.markdown(
@@ -304,15 +287,8 @@ if logo_base64:
         unsafe_allow_html=True,
     )
 
-st.markdown(
-    """
-            <div class="brand-title">Atlas</div>
-        </div>
-        <div></div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown('<div class="brand-title">Atlas</div>', unsafe_allow_html=True)
+st.markdown('</div></div>', unsafe_allow_html=True)
 
 st.markdown('<div class="hero-wrap"><div class="hero">', unsafe_allow_html=True)
 
@@ -331,20 +307,20 @@ st.markdown('<div class="hero-subtitle">How can I assist you today?</div>', unsa
 
 st.markdown('<div class="composer-shell">', unsafe_allow_html=True)
 st.markdown(
-    '<div class="composer-meta">Atlas beta is live. Operational intelligence features will expand here.</div>',
+    '<div class="composer-meta">Atlas beta is live. Ask anything to get started.</div>',
     unsafe_allow_html=True,
 )
 
 with st.form("atlas_prompt_form", clear_on_submit=False):
-    input_cols = st.columns([8.8, 1.7])
-    with input_cols[0]:
+    cols = st.columns([8.6, 1.8])
+    with cols[0]:
         user_input = st.text_input(
             "",
             placeholder="Ask anything...",
             label_visibility="collapsed",
             key="atlas_prompt",
         )
-    with input_cols[1]:
+    with cols[1]:
         submitted = st.form_submit_button("Send")
 
     if submitted and user_input.strip():
@@ -364,6 +340,5 @@ if st.session_state.last_prompt:
     )
 
 st.markdown('<div class="subtle-note">Atlas beta · cinematic operational AI shell</div>', unsafe_allow_html=True)
-
 st.markdown('</div></div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
