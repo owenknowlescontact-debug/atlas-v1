@@ -9,6 +9,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# -----------------------------
+# Helpers
+# -----------------------------
 def image_to_base64(path: str) -> str:
     if not os.path.exists(path):
         return ""
@@ -20,6 +23,9 @@ logo_base64 = image_to_base64("atlas_logo_transparent.png")
 if "last_prompt" not in st.session_state:
     st.session_state.last_prompt = ""
 
+# -----------------------------
+# Styling
+# -----------------------------
 st.markdown(
     """
     <style>
@@ -42,11 +48,16 @@ st.markdown(
 
     .block-container {
         max-width: 100%;
-        padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+        padding: 0.35rem 0.55rem 0.55rem 0.55rem;
+    }
+
+    /* Remove a lot of Streamlit default whitespace */
+    div[data-testid="stVerticalBlock"] {
+        gap: 0.25rem;
     }
 
     .shell {
-        min-height: calc(100vh - 1rem);
+        min-height: calc(100vh - 0.7rem);
         border-radius: 28px;
         border: 1px solid rgba(255,255,255,0.06);
         background:
@@ -105,11 +116,11 @@ st.markdown(
     }
 
     .hero-wrap {
-        min-height: calc(100vh - 64px - 1rem);
+        min-height: calc(100vh - 64px - 1.2rem);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0.5rem 1rem 1.25rem 1rem;
+        padding: 0.15rem 1rem 0.4rem 1rem;
         position: relative;
     }
 
@@ -128,7 +139,7 @@ st.markdown(
 
     .hero {
         width: 100%;
-        max-width: 900px;
+        max-width: 920px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -141,7 +152,7 @@ st.markdown(
     .hero-logo {
         width: 86px;
         height: 86px;
-        margin: 0 auto 1.1rem auto;
+        margin: 0 auto 1rem auto;
         border-radius: 24px;
         border: 1px solid rgba(255,255,255,0.08);
         background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
@@ -156,44 +167,31 @@ st.markdown(
 
     .hero-logo img {
         filter: brightness(0) invert(1) opacity(0.96);
-        transform: scale(1.22);
+        transform: scale(1.38);
         transform-origin: center;
     }
 
     .hero-title {
-        font-size: 2.55rem;
+        font-size: 2.45rem;
         line-height: 1.06;
         font-weight: 650;
         letter-spacing: -0.03em;
         color: #edf2f9;
-        margin: 0 auto 0.55rem auto;
+        margin: 0 auto 0.45rem auto;
         text-align: center;
     }
 
     .hero-subtitle {
         font-size: 1rem;
         color: #8c95a2;
-        margin: 0 auto 1.15rem auto;
+        margin: 0 auto 1rem auto;
         text-align: center;
-    }
-
-    .composer-shell {
-        width: 100%;
-        max-width: 760px;
-        margin: 0 auto;
-        border: 1px solid rgba(255,255,255,0.07);
-        border-radius: 24px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
-        padding: 0.9rem 1rem 1rem 1rem;
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.02),
-            0 12px 36px rgba(0,0,0,0.22);
     }
 
     .response-card {
         width: 100%;
         max-width: 760px;
-        margin: 1rem auto 0 auto;
+        margin: 0.9rem auto 0 auto;
         border: 1px solid rgba(255,255,255,0.07);
         border-radius: 22px;
         background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
@@ -214,13 +212,29 @@ st.markdown(
     }
 
     .subtle-note {
-        margin-top: 0.85rem;
+        margin-top: 0.75rem;
         color: #68717d;
         font-size: 0.76rem;
         text-align: center;
     }
 
-    /* Text input */
+    /* Style the real Streamlit form block */
+    div[data-testid="stForm"] {
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    div[data-testid="stForm"] > div {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    /* Actual input */
     div[data-testid="stTextInputRootElement"] > div {
         background: transparent !important;
     }
@@ -229,45 +243,53 @@ st.markdown(
         background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
         color: #edf2f9 !important;
         border: 1px solid rgba(255,255,255,0.08) !important;
-        border-radius: 18px !important;
-        padding: 1rem 1rem !important;
+        border-radius: 999px !important;
+        padding: 1rem 1.1rem !important;
         font-size: 1rem !important;
         box-shadow: none !important;
+        min-height: 58px !important;
     }
 
     div[data-testid="stTextInputRootElement"] input::placeholder {
         color: #9aa3af !important;
     }
 
-    /* Send button */
-    .stButton > button,
+    /* Actual submit button */
     .stFormSubmitButton > button {
         width: 100% !important;
-        border-radius: 18px !important;
+        border-radius: 999px !important;
         border: 1px solid rgba(255,255,255,0.08) !important;
         background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
         color: #edf2f9 !important;
-        padding: 0.92rem 1rem !important;
+        padding: 0.95rem 1rem !important;
         box-shadow: none !important;
         font-weight: 600 !important;
-        min-height: 56px !important;
+        min-height: 58px !important;
     }
 
-    .stButton > button:hover,
     .stFormSubmitButton > button:hover {
         border-color: rgba(255,255,255,0.14) !important;
         background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.02)) !important;
+    }
+
+    /* tighten column spacing around input/button */
+    div[data-testid="column"] {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
+# -----------------------------
+# Shell
+# -----------------------------
 st.markdown('<div class="shell">', unsafe_allow_html=True)
 
 st.markdown('<div class="topbar"><div class="topbar-group">', unsafe_allow_html=True)
-st.markdown('<div class="top-pill">BETA</div>', unsafe_allow_html=True)
 st.markdown('<div class="top-pill atlas">Atlas</div>', unsafe_allow_html=True)
+st.markdown('<div class="top-pill">BETA</div>', unsafe_allow_html=True)
 st.markdown('</div></div>', unsafe_allow_html=True)
 
 st.markdown('<div class="hero-wrap"><div class="hero">', unsafe_allow_html=True)
@@ -285,10 +307,8 @@ if logo_base64:
 st.markdown('<div class="hero-title">Good to see you.</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-subtitle">How can I assist you today?</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="composer-shell">', unsafe_allow_html=True)
-
 with st.form("atlas_prompt_form", clear_on_submit=False):
-    cols = st.columns([8.6, 1.8])
+    cols = st.columns([8.6, 1.8], gap="small")
     with cols[0]:
         user_input = st.text_input(
             "",
@@ -301,8 +321,6 @@ with st.form("atlas_prompt_form", clear_on_submit=False):
 
     if submitted and user_input.strip():
         st.session_state.last_prompt = user_input.strip()
-
-st.markdown('</div>', unsafe_allow_html=True)
 
 if st.session_state.last_prompt:
     st.markdown(
