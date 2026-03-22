@@ -44,8 +44,6 @@ if "chats" not in st.session_state:
     st.session_state.chats = [create_chat("New Chat")]
 if "active_chat_id" not in st.session_state:
     st.session_state.active_chat_id = st.session_state.chats[0]["id"]
-if "search_placeholder" not in st.session_state:
-    st.session_state.search_placeholder = ""
 if "projects_placeholder" not in st.session_state:
     st.session_state.projects_placeholder = ["Project 1", "Project 2", "Project 3"]
 
@@ -66,61 +64,78 @@ st.markdown(
         font-family: "Amazon Ember", "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     }
 
+    html, body, .stApp {
+        height: 100%;
+    }
+
     .stApp {
         background:
             radial-gradient(circle at 50% 0%, rgba(180,190,210,0.06), transparent 16%),
             radial-gradient(circle at 50% 16%, rgba(255,255,255,0.025), transparent 12%),
             linear-gradient(180deg, #04070b 0%, #060910 45%, #04070b 100%);
         color: #e9edf5;
+        overflow: hidden;
     }
 
     .block-container {
-        padding-top: 0.6rem;
-        padding-bottom: 0.7rem;
-        padding-left: 0.8rem;
-        padding-right: 0.8rem;
+        padding-top: 0.45rem;
+        padding-bottom: 0.45rem;
+        padding-left: 0.55rem;
+        padding-right: 0.55rem;
         max-width: 100%;
     }
 
+    /* Sidebar */
     section[data-testid="stSidebar"] {
         background:
             linear-gradient(180deg, rgba(9,12,18,0.98), rgba(6,8,12,0.98)) !important;
         border-right: 1px solid rgba(255,255,255,0.06);
-        min-width: 280px !important;
-        max-width: 280px !important;
+        min-width: 290px !important;
+        max-width: 290px !important;
     }
 
     section[data-testid="stSidebar"] .block-container {
-        padding-top: 0.75rem;
+        padding-top: 0.8rem;
         padding-left: 0.8rem;
         padding-right: 0.8rem;
+    }
+
+    /* Sidebar collapse / expand arrow */
+    button[title="Close sidebar"],
+    button[title="Open sidebar"] {
+        color: #eef2f9 !important;
+    }
+
+    button[title="Close sidebar"] svg,
+    button[title="Open sidebar"] svg,
+    [data-testid="stSidebarCollapseButton"] svg,
+    [data-testid="stSidebarCollapsedControl"] svg {
+        fill: #eef2f9 !important;
+        stroke: #eef2f9 !important;
+        color: #eef2f9 !important;
     }
 
     .sidebar-brand {
         display: flex;
         align-items: center;
         gap: 0.55rem;
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.95rem;
     }
 
     .brand-pill {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 36px;
-        padding: 0.34rem 0.8rem;
+        min-height: 38px;
+        padding: 0.38rem 0.86rem;
         border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.08);
         background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
         color: #dfe5ef;
-        font-size: 0.84rem;
+        font-size: 0.86rem;
         font-weight: 700;
         letter-spacing: 0.03em;
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-    }
-
-    .brand-pill.beta {
-        font-size: 0.8rem;
     }
 
     .sidebar-label {
@@ -133,16 +148,23 @@ st.markdown(
         letter-spacing: 0.08em;
     }
 
+    .placeholder-row {
+        color: #8f98a5;
+        font-size: 0.95rem;
+        padding: 0.55rem 0.2rem 0.2rem 0.2rem;
+    }
+
+    /* Main area */
     .main-shell {
-        min-height: calc(100vh - 1.3rem);
+        min-height: calc(100vh - 0.9rem);
         border-radius: 28px;
         border: 1px solid rgba(255,255,255,0.06);
         background:
             radial-gradient(circle at 50% 12%, rgba(255,255,255,0.03), transparent 16%),
             linear-gradient(180deg, rgba(6,9,14,0.97), rgba(4,7,11,0.99));
         box-shadow: 0 24px 90px rgba(0,0,0,0.5);
-        overflow: hidden;
         position: relative;
+        overflow: hidden;
     }
 
     .main-shell::before {
@@ -154,33 +176,42 @@ st.markdown(
         mix-blend-mode: screen;
     }
 
-    .main-top {
-        height: 58px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+    .center-stage {
+        min-height: calc(100vh - 2rem);
         display: flex;
         align-items: center;
-        padding: 0 1rem;
-        color: #e9edf5;
-        font-weight: 600;
-        background: rgba(4,6,10,0.35);
+        justify-content: center;
+        padding: 0.4rem 1rem 0.8rem 1rem;
+        position: relative;
+    }
+
+    .center-stage::before {
+        content: "";
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 42%;
+        height: 22%;
+        background: radial-gradient(circle, rgba(255,255,255,0.045), transparent 70%);
+        filter: blur(16px);
+        pointer-events: none;
     }
 
     .landing-wrap {
         width: 100%;
-        max-width: 920px;
-        margin: 0 auto;
-        padding-top: 6vh;
-        padding-bottom: 1rem;
+        max-width: 880px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        z-index: 1;
     }
 
     .hero-logo {
         width: 88px;
         height: 88px;
-        margin: 0 auto 0.9rem auto;
+        margin: 0 auto 0.85rem auto;
         border-radius: 24px;
         border: 1px solid rgba(255,255,255,0.08);
         background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
@@ -195,13 +226,13 @@ st.markdown(
 
     .hero-logo img {
         filter: brightness(0) invert(1) opacity(0.97);
-        transform: scale(1.6);
+        transform: scale(1.72);
         transform-origin: center;
     }
 
     .hero-title {
         font-size: 2.35rem;
-        line-height: 1.06;
+        line-height: 1.05;
         font-weight: 650;
         letter-spacing: -0.03em;
         color: #edf2f9;
@@ -212,25 +243,54 @@ st.markdown(
     .hero-subtitle {
         font-size: 1rem;
         color: #8c95a2;
-        margin: 0 0 1rem 0;
+        margin: 0 0 1.05rem 0;
         text-align: center;
     }
 
-    div[data-testid="stTextInputRootElement"] > div {
+    .chat-card {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+    }
+
+    /* REAL input styling */
+    div[data-testid="stForm"] {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
         background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    div[data-testid="stForm"] > div {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    div[data-testid="stTextInputRootElement"] {
+        width: 100%;
+    }
+
+    div[data-testid="stTextInputRootElement"] [data-baseweb="input"] {
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        border-radius: 999px !important;
+        box-shadow: none !important;
     }
 
     div[data-testid="stTextInputRootElement"] input {
-        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
-        -webkit-text-fill-color: #edf2f9 !important;
+        background: transparent !important;
         color: #edf2f9 !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        border-radius: 999px !important;
-        padding: 1rem 1.15rem !important;
-        font-size: 1rem !important;
+        -webkit-text-fill-color: #edf2f9 !important;
+        border: none !important;
         box-shadow: none !important;
         min-height: 58px !important;
+        font-size: 1rem !important;
+        padding: 0.95rem 1.15rem !important;
         opacity: 1 !important;
+        caret-color: #edf2f9 !important;
     }
 
     div[data-testid="stTextInputRootElement"] input::placeholder {
@@ -239,9 +299,19 @@ st.markdown(
         opacity: 1 !important;
     }
 
-    .stButton > button,
-    .stFormSubmitButton > button,
-    section[data-testid="stSidebar"] .stButton > button {
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus {
+        -webkit-text-fill-color: #edf2f9 !important;
+        box-shadow: 0 0 0px 1000px rgba(10,14,20,1) inset !important;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(10,14,20,1) inset !important;
+        transition: background-color 9999s ease-in-out 0s;
+    }
+
+    .stFormSubmitButton > button {
         width: 100% !important;
         border-radius: 999px !important;
         border: 1px solid rgba(255,255,255,0.08) !important;
@@ -249,28 +319,19 @@ st.markdown(
         color: #edf2f9 !important;
         padding: 0.9rem 1rem !important;
         box-shadow: none !important;
-        font-weight: 600 !important;
-        min-height: 50px !important;
+        font-weight: 700 !important;
+        min-height: 58px !important;
+        font-size: 1.1rem !important;
     }
 
-    .stButton > button:hover,
     .stFormSubmitButton > button:hover {
         border-color: rgba(255,255,255,0.14) !important;
         background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.02)) !important;
     }
 
-    .chat-card {
-        width: 100%;
-        max-width: 880px;
-        margin: 0 auto;
-        padding-bottom: 0.6rem;
-    }
-
-    .subtle-note {
-        margin-top: 0.7rem;
-        color: #68717d;
-        font-size: 0.76rem;
-        text-align: center;
+    div[data-testid="column"] {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
     }
 
     div[data-testid="stChatMessage"] {
@@ -284,15 +345,11 @@ st.markdown(
         color: #edf2f9 !important;
     }
 
-    div[data-testid="column"] {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-
-    .placeholder-row {
-        color: #8f98a5;
-        font-size: 0.95rem;
-        padding: 0.65rem 0.2rem 0.2rem 0.2rem;
+    .subtle-note {
+        margin-top: 0.65rem;
+        color: #68717d;
+        font-size: 0.76rem;
+        text-align: center;
     }
     </style>
     """,
@@ -307,7 +364,7 @@ with st.sidebar:
         """
         <div class="sidebar-brand">
             <div class="brand-pill">Atlas</div>
-            <div class="brand-pill beta">BETA</div>
+            <div class="brand-pill">BETA</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -334,17 +391,15 @@ with st.sidebar:
             st.session_state.active_chat_id = chat["id"]
             st.rerun()
 
-# Refresh active chat after potential rerun operations
+# refresh active chat
 active_index = get_chat_index(st.session_state.active_chat_id)
 active_chat = st.session_state.chats[active_index]
 
 # -------------------------------------------------
 # Main
 # -------------------------------------------------
-st.markdown('<div class="main-shell">', unsafe_allow_html=True)
-st.markdown('<div class="main-top">Atlas</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-shell"><div class="center-stage"><div class="landing-wrap">', unsafe_allow_html=True)
 
-# Show messages if chat has content
 if active_chat["messages"]:
     st.markdown('<div class="chat-card">', unsafe_allow_html=True)
     for msg in active_chat["messages"]:
@@ -352,13 +407,11 @@ if active_chat["messages"]:
             st.markdown(msg["content"])
     st.markdown('</div>', unsafe_allow_html=True)
 else:
-    st.markdown('<div class="landing-wrap">', unsafe_allow_html=True)
-
     if logo_base64:
         st.markdown(
             f'''
             <div class="hero-logo">
-                <img src="data:image/png;base64,{logo_base64}" width="60" />
+                <img src="data:image/png;base64,{logo_base64}" width="62" />
             </div>
             ''',
             unsafe_allow_html=True,
@@ -366,10 +419,9 @@ else:
 
     st.markdown('<div class="hero-title">Good to see you.</div>', unsafe_allow_html=True)
     st.markdown('<div class="hero-subtitle">How can I assist you today?</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
 with st.form("atlas_prompt_form", clear_on_submit=True):
-    cols = st.columns([8.7, 1.6], gap="small")
+    cols = st.columns([8.8, 1.4], gap="small")
     with cols[0]:
         user_input = st.text_input(
             "",
@@ -377,7 +429,7 @@ with st.form("atlas_prompt_form", clear_on_submit=True):
             label_visibility="collapsed",
         )
     with cols[1]:
-        submitted = st.form_submit_button("Send")
+        submitted = st.form_submit_button("➜")
 
     if submitted and user_input.strip():
         text = user_input.strip()
@@ -394,4 +446,4 @@ with st.form("atlas_prompt_form", clear_on_submit=True):
         st.rerun()
 
 st.markdown('<div class="subtle-note">Atlas beta · cinematic operational AI shell</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div></div></div>', unsafe_allow_html=True)
