@@ -33,16 +33,16 @@ st.markdown(
 
     .stApp {
         background:
-            radial-gradient(circle at 50% 0%, rgba(180,190,210,0.08), transparent 16%),
-            radial-gradient(circle at 50% 14%, rgba(255,255,255,0.03), transparent 12%),
-            linear-gradient(180deg, #04070b 0%, #060a10 45%, #04070b 100%);
+            radial-gradient(circle at 50% 0%, rgba(180,190,210,0.07), transparent 16%),
+            radial-gradient(circle at 50% 14%, rgba(255,255,255,0.02), transparent 12%),
+            linear-gradient(180deg, #04070b 0%, #060910 45%, #04070b 100%);
         color: #e9edf5;
         overflow: hidden;
     }
 
     .block-container {
         max-width: 100%;
-        padding: 0.5rem 0.7rem 0.7rem 0.7rem;
+        padding: 0.5rem 0.75rem 0.75rem 0.75rem;
     }
 
     .shell {
@@ -50,8 +50,8 @@ st.markdown(
         border-radius: 28px;
         border: 1px solid rgba(255,255,255,0.06);
         background:
-            radial-gradient(circle at 50% 12%, rgba(255,255,255,0.035), transparent 16%),
-            linear-gradient(180deg, rgba(6,9,14,0.96), rgba(4,7,11,0.985));
+            radial-gradient(circle at 50% 10%, rgba(255,255,255,0.03), transparent 15%),
+            linear-gradient(180deg, rgba(6,9,14,0.97), rgba(4,7,11,0.99));
         box-shadow: 0 24px 90px rgba(0,0,0,0.5);
         overflow: hidden;
         position: relative;
@@ -72,51 +72,36 @@ st.markdown(
         align-items: center;
         padding: 0 1rem;
         border-bottom: 1px solid rgba(255,255,255,0.05);
-        background: rgba(4, 6, 10, 0.42);
+        background: rgba(4,6,10,0.40);
     }
 
     .topbar-group {
         display: flex;
         align-items: center;
-        gap: 0.7rem;
+        gap: 0.65rem;
     }
 
-    .beta-pill {
+    .top-pill {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.42rem 0.8rem;
+        min-height: 42px;
+        padding: 0.42rem 0.85rem;
         border-radius: 999px;
-        border: 1px solid rgba(255,255,255,0.09);
+        border: 1px solid rgba(255,255,255,0.08);
         background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
         color: #dfe5ef;
         font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.08em;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
     }
 
-    .brand-tile {
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-        border: 1px solid rgba(255,255,255,0.08);
-        background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    .brand-tile img,
-    .hero-logo img {
-        filter: brightness(0) invert(1) opacity(0.95);
-    }
-
-    .brand-title {
-        color: #edf2f9;
-        font-size: 1.06rem;
+    .top-pill.atlas {
+        font-size: 0.98rem;
         font-weight: 600;
         letter-spacing: 0.01em;
+        padding: 0.45rem 1rem;
     }
 
     .hero-wrap {
@@ -124,32 +109,33 @@ st.markdown(
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0.5rem 1rem 1rem 1rem;
+        padding: 0.5rem 1rem 1.25rem 1rem;
         position: relative;
     }
 
     .hero-wrap::before {
         content: "";
         position: absolute;
-        top: 2%;
+        top: 3%;
         left: 50%;
         transform: translateX(-50%);
-        width: 46%;
+        width: 44%;
         height: 24%;
-        background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);
+        background: radial-gradient(circle, rgba(255,255,255,0.045), transparent 70%);
         filter: blur(18px);
         pointer-events: none;
     }
 
     .hero {
         width: 100%;
-        max-width: 760px;
-        text-align: center;
-        z-index: 1;
+        max-width: 900px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center;
+        z-index: 1;
+        margin: 0 auto;
     }
 
     .hero-logo {
@@ -168,47 +154,40 @@ st.markdown(
             0 0 30px rgba(255,255,255,0.025);
     }
 
+    .hero-logo img {
+        filter: brightness(0) invert(1) opacity(0.96);
+        transform: scale(1.22);
+        transform-origin: center;
+    }
+
     .hero-title {
-        font-size: 3rem;
-        line-height: 1.04;
+        font-size: 2.55rem;
+        line-height: 1.06;
         font-weight: 650;
-        letter-spacing: -0.035em;
+        letter-spacing: -0.03em;
         color: #edf2f9;
-        margin-bottom: 0.65rem;
+        margin: 0 auto 0.55rem auto;
+        text-align: center;
     }
 
     .hero-subtitle {
         font-size: 1rem;
         color: #8c95a2;
-        margin-bottom: 1.15rem;
+        margin: 0 auto 1.15rem auto;
+        text-align: center;
     }
 
     .composer-shell {
         width: 100%;
         max-width: 760px;
         margin: 0 auto;
-        border: 1px solid rgba(255,255,255,0.075);
+        border: 1px solid rgba(255,255,255,0.07);
         border-radius: 24px;
-        background:
-            linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
         padding: 0.9rem 1rem 1rem 1rem;
         box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.02),
             0 12px 36px rgba(0,0,0,0.22);
-    }
-
-    .composer-meta {
-        text-align: left;
-        color: #8c95a2;
-        font-size: 0.8rem;
-        margin-bottom: 0.72rem;
-    }
-
-    .subtle-note {
-        margin-top: 0.85rem;
-        color: #68717d;
-        font-size: 0.76rem;
-        text-align: center;
     }
 
     .response-card {
@@ -234,38 +213,50 @@ st.markdown(
         line-height: 1.5;
     }
 
+    .subtle-note {
+        margin-top: 0.85rem;
+        color: #68717d;
+        font-size: 0.76rem;
+        text-align: center;
+    }
+
+    /* Text input */
     div[data-testid="stTextInputRootElement"] > div {
         background: transparent !important;
     }
 
     div[data-testid="stTextInputRootElement"] input {
-        background: rgba(255,255,255,0.03) !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
         color: #edf2f9 !important;
-        border: 1px solid rgba(255,255,255,0.07) !important;
-        border-radius: 16px !important;
-        padding: 0.98rem 1rem !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        border-radius: 18px !important;
+        padding: 1rem 1rem !important;
         font-size: 1rem !important;
         box-shadow: none !important;
     }
 
     div[data-testid="stTextInputRootElement"] input::placeholder {
-        color: #8c95a2 !important;
+        color: #9aa3af !important;
     }
 
-    .stButton > button {
+    /* Send button */
+    .stButton > button,
+    .stFormSubmitButton > button {
         width: 100% !important;
-        border-radius: 16px !important;
-        border: 1px solid rgba(255,255,255,0.07) !important;
-        background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012)) !important;
+        border-radius: 18px !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
         color: #edf2f9 !important;
-        padding: 0.82rem 1rem !important;
+        padding: 0.92rem 1rem !important;
         box-shadow: none !important;
         font-weight: 600 !important;
+        min-height: 56px !important;
     }
 
-    .stButton > button:hover {
+    .stButton > button:hover,
+    .stFormSubmitButton > button:hover {
         border-color: rgba(255,255,255,0.14) !important;
-        background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.018)) !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.02)) !important;
     }
     </style>
     """,
@@ -275,19 +266,8 @@ st.markdown(
 st.markdown('<div class="shell">', unsafe_allow_html=True)
 
 st.markdown('<div class="topbar"><div class="topbar-group">', unsafe_allow_html=True)
-st.markdown('<div class="beta-pill">BETA</div>', unsafe_allow_html=True)
-
-if logo_base64:
-    st.markdown(
-        f'''
-        <div class="brand-tile">
-            <img src="data:image/png;base64,{logo_base64}" width="20" />
-        </div>
-        ''',
-        unsafe_allow_html=True,
-    )
-
-st.markdown('<div class="brand-title">Atlas</div>', unsafe_allow_html=True)
+st.markdown('<div class="top-pill">BETA</div>', unsafe_allow_html=True)
+st.markdown('<div class="top-pill atlas">Atlas</div>', unsafe_allow_html=True)
 st.markdown('</div></div>', unsafe_allow_html=True)
 
 st.markdown('<div class="hero-wrap"><div class="hero">', unsafe_allow_html=True)
@@ -296,7 +276,7 @@ if logo_base64:
     st.markdown(
         f'''
         <div class="hero-logo">
-            <img src="data:image/png;base64,{logo_base64}" width="48" />
+            <img src="data:image/png;base64,{logo_base64}" width="56" />
         </div>
         ''',
         unsafe_allow_html=True,
@@ -306,10 +286,6 @@ st.markdown('<div class="hero-title">Good to see you.</div>', unsafe_allow_html=
 st.markdown('<div class="hero-subtitle">How can I assist you today?</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="composer-shell">', unsafe_allow_html=True)
-st.markdown(
-    '<div class="composer-meta">Atlas beta is live. Ask anything to get started.</div>',
-    unsafe_allow_html=True,
-)
 
 with st.form("atlas_prompt_form", clear_on_submit=False):
     cols = st.columns([8.6, 1.8])
